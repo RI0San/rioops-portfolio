@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RioOps — AI Automation Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --surface2: #18181f;
+  --border: rgba(255,255,255,0.07);
+  --border-bright: rgba(255,255,255,0.14);
+  --text: #e8e6f0;
+  --muted: #7a7890;
+  --accent-teal: #00e5b0;
+  --accent-amber: #f5a623;
+  --accent-purple: #9b7fe8;
+  --accent-red: #ff5f5f;
+  --glow-teal: rgba(0,229,176,0.15);
+  --glow-amber: rgba(245,166,35,0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── NOISE TEXTURE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 48px;
+  overflow: hidden;
+}
+
+.hero-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.18;
+  pointer-events: none;
+}
+.hero-glow.teal  { background: var(--accent-teal);  top: -100px; left: -100px; }
+.hero-glow.amber { background: var(--accent-amber); bottom: -100px; right: -50px; }
+
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 48px;
+  backdrop-filter: blur(20px);
+  background: rgba(10,10,15,0.7);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'DM Mono', monospace;
+  font-size: 15px;
+  color: var(--accent-teal);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+}
+
+.nav-links { display: flex; gap: 32px; }
+.nav-links a {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  margin-bottom: 24px;
+}
+.badge.teal  { border: 1px solid rgba(0,229,176,0.3); color: var(--accent-teal); background: rgba(0,229,176,0.06); }
+.badge.amber { border: 1px solid rgba(245,166,35,0.3); color: var(--accent-amber); background: rgba(245,166,35,0.06); }
+.badge.purple { border: 1px solid rgba(155,127,232,0.3); color: var(--accent-purple); background: rgba(155,127,232,0.06); }
+
+.badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.hero-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(42px, 6vw, 80px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  max-width: 800px;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--accent-teal);
+}
+
+.hero-sub {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--muted);
+  max-width: 540px;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+.hero-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 48px;
+}
+
+.tag {
+  padding: 5px 12px;
+  border: 1px solid var(--border-bright);
+  border-radius: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.cta-row { display: flex; gap: 16px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 28px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+.btn-primary {
+  background: var(--accent-teal);
+  color: #0a0a0f;
+}
+.btn-primary:hover { background: #00ffca; transform: translateY(-1px); }
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-bright);
+}
+.btn-secondary:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+
+/* ── SECTION LAYOUT ── */
+.section {
+  position: relative;
+  padding: 100px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(28px, 3.5vw, 46px);
+  line-height: 1.15;
+  margin-bottom: 48px;
+}
+
+/* ── CASE STUDY CARDS ── */
+.case-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface);
+  margin-bottom: 48px;
+  transition: border-color 0.3s;
+}
+.case-card:hover { border-color: var(--border-bright); }
+
+.case-header {
+  padding: 40px 40px 32px;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: start;
+}
+
+.case-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+
+.case-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(22px, 2.5vw, 32px);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.case-sub {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+.case-number {
+  font-family: 'DM Serif Display', serif;
+  font-size: 72px;
+  color: var(--border);
+  line-height: 1;
+  user-select: none;
+}
+
+/* ── METRICS ROW ── */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  border-bottom: 1px solid var(--border);
+}
+.metric {
+  padding: 24px 32px;
+  border-right: 1px solid var(--border);
+}
+.metric:last-child { border-right: none; }
+.metric-value {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.metric-label {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+/* ── FLOW DIAGRAM ── */
+.case-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+@media(max-width: 768px) {
+  .case-body { grid-template-columns: 1fr; }
+  .case-header { grid-template-columns: 1fr; }
+  .case-number { display: none; }
+  .hero, .section { padding-left: 24px; padding-right: 24px; }
+  .nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+}
+
+.flow-panel {
+  padding: 32px;
+  border-right: 1px solid var(--border);
+}
+.flow-panel:last-child { border-right: none; }
+
+.panel-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+/* ── FLOW STEPS ── */
+.flow-steps { display: flex; flex-direction: column; gap: 0; }
+
+.flow-step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 0;
+}
+
+.step-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.step-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  flex-shrink: 0;
+  border: 1px solid currentColor;
+  z-index: 1;
+}
+
+.step-connector {
+  width: 1px;
+  flex: 1;
+  min-height: 20px;
+  background: var(--border);
+  margin: 2px 0;
+}
+
+.step-content {
+  padding-bottom: 20px;
+  flex: 1;
+}
+
+.step-name {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.step-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.step-node {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 7px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* teal steps */
+.teal .step-dot { color: var(--accent-teal); border-color: rgba(0,229,176,0.4); background: rgba(0,229,176,0.06); }
+/* amber steps */
+.amber .step-dot { color: var(--accent-amber); border-color: rgba(245,166,35,0.4); background: rgba(245,166,35,0.06); }
+
+/* ── TECH STACK PANEL ── */
+.tech-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tech-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.tech-name {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.tech-role {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* ── FEATURES ── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  padding: 28px 32px;
+  border-top: 1px solid var(--border);
+}
+
+.feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.feature-icon {
+  font-size: 15px;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-bright), transparent);
+  margin: 0 48px;
+}
+
+/* ── ABOUT ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+@media(max-width:768px) { .about-grid { grid-template-columns: 1fr; } }
+
+.about-text { font-size: 15px; color: var(--muted); line-height: 1.8; }
+.about-text p { margin-bottom: 16px; }
+.about-text strong { color: var(--text); font-weight: 500; }
+
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skill-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface2);
+  font-size: 13px;
+}
+
+.skill-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── CONTACT ── */
+.contact-box {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 56px;
+  text-align: center;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-box::before {
+  content: '';
+  position: absolute;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  filter: blur(80px);
+  background: var(--accent-teal);
+  opacity: 0.06;
+  top: -100px; left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.contact-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(24px, 3vw, 40px);
+  margin-bottom: 16px;
+}
+
+.contact-sub {
+  color: var(--muted);
+  font-size: 16px;
+  margin-bottom: 36px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-links {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border: 1px solid var(--border-bright);
+  border-radius: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+.contact-link:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+
+/* ── FOOTER ── */
+footer {
+  padding: 28px 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero > * { animation: fadeUp 0.7s ease both; }
+.hero > *:nth-child(2) { animation-delay: 0.1s; }
+.hero > *:nth-child(3) { animation-delay: 0.2s; }
+.hero > *:nth-child(4) { animation-delay: 0.25s; }
+.hero > *:nth-child(5) { animation-delay: 0.3s; }
+.hero > *:nth-child(6) { animation-delay: 0.35s; }
+.hero > *:nth-child(7) { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" href="#">RioOps_</a>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow teal"></div>
+  <div class="hero-glow amber"></div>
+  <p class="hero-eyebrow">AI Automation Engineer · n8n Specialist</p>
+  <h1 class="hero-title">I build <em>intelligent</em> WhatsApp systems that sell, book & follow up — 24/7</h1>
+  <p class="hero-sub">Production-grade AI receptionists for Arabic-speaking markets. From zero to deployed, on your infrastructure.</p>
+  <div class="hero-stack">
+    <span class="tag">n8n</span>
+    <span class="tag">WhatsApp / Evolution API</span>
+    <span class="tag">OpenAI GPT-4o</span>
+    <span class="tag">Supabase + pgvector</span>
+    <span class="tag">RAG Systems</span>
+    <span class="tag">Arabic · French · Darija</span>
+    <span class="tag">VPS · Docker · Cloudflare</span>
+  </div>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#work">View case studies</a>
+    <a class="btn btn-secondary" href="#contact">Get in touch</a>
+  </div>
+</section>
+
+<!-- WORK -->
+<div id="work">
+
+<!-- ── CASE STUDY 1: MOROCCO CAR RENTAL ── -->
+<div class="section" style="padding-bottom: 0;">
+  <p class="section-label">Case Study 01</p>
+  <h2 class="section-title">WhatsApp AI Receptionist<br>for Car Rental Agencies</h2>
+</div>
+
+<div style="max-width:1200px; margin: 0 auto; padding: 0 48px 80px;">
+<div class="case-card">
+
+  <div class="case-header">
+    <div>
+      <div class="case-meta">
+        <span class="badge teal">Live System</span>
+        <span class="badge purple">Multi-tenant SaaS</span>
+      </div>
+      <h3 class="case-title">Morocco Car Rental AI — ELITE Stack</h3>
+      <p class="case-sub">A fully autonomous WhatsApp agent that greets customers, checks live car availability, calculates pricing, creates bookings, detects negotiation attempts, escalates to the owner when needed — all in Arabic, French, or Darija depending on who's writing.</p>
+    </div>
+    <div class="case-number">01</div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-value" style="color:var(--accent-teal)">33</div>
+      <div class="metric-label">workflow nodes</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value" style="color:var(--accent-teal)">4</div>
+      <div class="metric-label">linked workflows</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value" style="color:var(--accent-teal)">3</div>
+      <div class="metric-label">languages detected</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value" style="color:var(--accent-teal)">0s</div>
+      <div class="metric-label">avg human response time</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value" style="color:var(--accent-teal)">∞</div>
+      <div class="metric-label">concurrent conversations</div>
+    </div>
+  </div>
+
+  <div class="case-body">
+
+    <!-- FLOW -->
+    <div class="flow-panel teal">
+      <p class="panel-title">How it works — message flow</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="step-line">
+            <div class="step-dot">01</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-name">Message arrives via WhatsApp</div>
+            <div class="step-desc">Evolution API fires a webhook. Outgoing messages and delivery receipts are filtered out immediately.</div>
+            <span class="step-node">webhook → Extract Message Data</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-line">
+            <div class="step-dot">02</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-name">Language detection + validation</div>
+            <div class="step-desc">Message is validated (no bot echoes, no empty payloads). Language is auto-detected — Arabic, French, or Darija — and the entire conversation follows that language.</div>
+            <span class="step-node">Valid Message? → language detection</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-line">
+            <div class="step-dot">03</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-name">Business config loaded from Sheets</div>
+            <div class="step-desc">Per-client config (agency name, pricing rules, cars, tone) is fetched from Google Sheets — the client can update their own data without touching n8n.</div>
+            <span class="step-node">Get Business Config (Supabase)</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-line">
+            <div class="step-dot">04</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-name">Customer memory + conversation history</div>
+            <div class="step-desc">Customer is retrieved or created in Supabase. Full conversation history is loaded so the AI always has context — no repeating questions.</div>
+            <span class="step-node">Get or Create Customer → Get Conversation History</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-line">
+            <div class="step-dot">05</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-name">AI generates response + extracts intent</div>
+            <div class="step-desc">GPT-4o-mini reads the context, available cars, and conversation, then replies. A second code node extracts booking intent, negotiation signals, and date validity.</div>
+            <span class="step-node">Prepare AI Context → AI Response Generator → Extract Intent</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-line">
+            <div class="step-dot">06</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-name">Confidence router branches the flow</div>
+            <div class="step-desc">A switch node routes on AI confidence: high → booking flow; medium → clarify; low → human escalation. No guesswork sent to the customer.</div>
+            <span class="step-node">Validate Dates → Confidence Router</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-line">
+            <div class="step-dot">07</div>
+          </div>
+          <div class="step-content">
+            <div class="step-name">Booking created + owner notified if needed</div>
+            <div class="step-desc">If car is available, booking is written to Supabase and a confirmation is sent. If human escalation is triggered, owner gets a WhatsApp ping instantly.</div>
+            <span class="step-node">Create Booking → Notify Owner → Save Conversations</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TECH -->
+    <div class="flow-panel">
+      <p class="panel-title">Tech stack</p>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <span class="tech-name">n8n (self-hosted)</span>
+          <span class="tech-role">Orchestration engine</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Evolution API</span>
+          <span class="tech-role">WhatsApp gateway</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">OpenAI GPT-4o-mini</span>
+          <span class="tech-role">AI language model</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Supabase (PostgreSQL)</span>
+          <span class="tech-role">Customer + booking DB</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Google Sheets</span>
+          <span class="tech-role">Client-editable config</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Hetzner VPS + Docker</span>
+          <span class="tech-role">Self-hosted infrastructure</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Cloudflare Tunnel</span>
+          <span class="tech-role">Secure public endpoint</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px;">
+        <p class="panel-title">Linked workflows</p>
+        <div class="tech-grid">
+          <div class="tech-item">
+            <span class="tech-name">⏰ Booking Follow-up & Reminders</span>
+            <span class="tech-role">Cron-based</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-name">👻 Ghost Follow-up System</span>
+            <span class="tech-role">Re-engagement</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-name">📊 Sheets → Supabase Sync</span>
+            <span class="tech-role">31 nodes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature"><span class="feature-icon">🌍</span> Auto-detects Arabic, French & Darija</div>
+    <div class="feature"><span class="feature-icon">🔒</span> Filters bot echoes &amp; delivery receipts</div>
+    <div class="feature"><span class="feature-icon">🤝</span> Detects price negotiation attempts</div>
+    <div class="feature"><span class="feature-icon">📅</span> Validates rental dates before booking</div>
+    <div class="feature"><span class="feature-icon">🧠</span> Full conversation memory per customer</div>
+    <div class="feature"><span class="feature-icon">🔔</span> Owner WhatsApp alert on escalation</div>
+    <div class="feature"><span class="feature-icon">📋</span> Client self-manages via Google Sheets</div>
+    <div class="feature"><span class="feature-icon">🏗️</span> Multi-tenant — one stack, many agencies</div>
+  </div>
+
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── CASE STUDY 2: DESERT YACHTS ── -->
+<div class="section" style="padding-bottom: 0;">
+  <p class="section-label">Case Study 02</p>
+  <h2 class="section-title">Luxury AI Concierge for<br>a Luxury RV Dealership — Saudi Arabia</h2>
+</div>
+
+<div style="max-width:1200px; margin: 0 auto; padding: 0 48px 100px;">
+<div class="case-card" style="border-color: rgba(245,166,35,0.15);">
+
+  <div class="case-header">
+    <div>
+      <div class="case-meta">
+        <span class="badge amber">Production Deployed</span>
+        <span class="badge purple">RAG-Enhanced</span>
+      </div>
+      <h3 class="case-title">Desert Yachts — Luxury AI Concierge [ULTIMATE]</h3>
+      <p class="case-sub">A premium AI sales concierge for a Saudi Arabian luxury camper van dealership. The system qualifies leads, showcases vehicles in Arabic, handles booking inquiries, sends PDF brochures on request, learns from conversations via RAG, and follows up with visit reminders and Google Review prompts automatically.</p>
+    </div>
+    <div class="case-number" style="color: rgba(245,166,35,0.12);">02</div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-value" style="color:var(--accent-amber)">33</div>
+      <div class="metric-label">main chatbot nodes</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value" style="color:var(--accent-amber)">5</div>
+      <div class="metric-label">linked workflows</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value" style="color:var(--accent-amber)">RAG</div>
+      <div class="metric-label">semantic memory</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value" style="color:var(--accent-amber)">PDF</div>
+      <div class="metric-label">auto-brochure delivery</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value" style="color:var(--accent-amber)">⭐</div>
+      <div class="metric-label">review automation</div>
+    </div>
+  </div>
+
+  <div class="case-body">
+
+    <!-- FLOW -->
+    <div class="flow-panel amber">
+      <p class="panel-title">How it works — message flow</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="step-line">
+            <div class="step-dot">01</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-name">Message arrives + validated</div>
+            <div class="step-desc">WhatsApp message hits Evolution API webhook. Noise (receipts, outgoing) is filtered immediately by the Extract Message Data node.</div>
+            <span class="step-node">webhook → Extract Message Data → Valid Message?</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-line">
+            <div class="step-dot">02</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-name">Business config from Google Sheets</div>
+            <div class="step-desc">Vehicle catalog, pricing, and tone-of-voice rules are fetched from a Google Sheet the client controls — zero technical knowledge required from them.</div>
+            <span class="step-node">Get Business Info (Google Sheets)</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-line">
+            <div class="step-dot">03</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-name">Customer profile + conversation loaded</div>
+            <div class="step-desc">Customer is upserted in Supabase. Full message history retrieved so the AI remembers everything — vehicle preferences, visit history, past objections.</div>
+            <span class="step-node">Get or Create Customer → Get Conversation History → Get Available Vehicles</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-line">
+            <div class="step-dot">04</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-name">RAG semantic search runs</div>
+            <div class="step-desc">The last mentioned vehicle is detected, then a vector similarity search (pgvector) finds the most relevant past conversations and product knowledge to enrich the AI context.</div>
+            <span class="step-node">Detect Last Vehicle → RAG system start → Process RAG Results</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-line">
+            <div class="step-dot">05</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-name">Luxury AI generates response</div>
+            <div class="step-desc">GPT-4o receives the full enriched context (business info + RAG results + history + vehicles) and generates a response calibrated for high-end Arabic sales.</div>
+            <span class="step-node">Prepare Luxury AI Context → Luxury AI Response Generator</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-line">
+            <div class="step-dot">06</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-name">Intent extraction + customer intelligence</div>
+            <div class="step-desc">Two dedicated code nodes extract booking intent, requested PDF/brochure flags, customer preferences, and update the customer profile with every new signal.</div>
+            <span class="step-node">Extract AI Response & Intents → Extract Customer Intelligence</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-line">
+            <div class="step-dot">07</div>
+          </div>
+          <div class="step-content">
+            <div class="step-name">Booking, PDF delivery + full data save</div>
+            <div class="step-desc">If booking intent → create in Supabase. If PDF requested → brochure sent via WhatsApp from Cloudflare R2. Conversation saved, customer record updated, response delivered.</div>
+            <span class="step-node">Has Booking Intent? → Create Booking → Should Send PDF? → send pdf → Save Conversations → Send WhatsApp Response</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TECH -->
+    <div class="flow-panel">
+      <p class="panel-title">Tech stack</p>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <span class="tech-name">n8n (self-hosted)</span>
+          <span class="tech-role">Orchestration engine</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Evolution API</span>
+          <span class="tech-role">WhatsApp gateway</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">OpenAI GPT-4o</span>
+          <span class="tech-role">AI language model</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Supabase + pgvector</span>
+          <span class="tech-role">DB + vector search</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Google Sheets</span>
+          <span class="tech-role">Client-editable catalog</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Cloudflare R2</span>
+          <span class="tech-role">PDF brochure storage</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Hetzner + Cloudflare Tunnel</span>
+          <span class="tech-role">VPS + secure endpoint</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px;">
+        <p class="panel-title">Full 5-workflow system</p>
+        <div class="tech-grid">
+          <div class="tech-item">
+            <span class="tech-name">🏜️ Main AI Concierge</span>
+            <span class="tech-role">33 nodes</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-name">🔍 RAG Search</span>
+            <span class="tech-role">14 nodes</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-name">🧠 RAG Collector</span>
+            <span class="tech-role">Learns from chats</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-name">⏰ Visit Reminders</span>
+            <span class="tech-role">Auto follow-up</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-name">⭐ Follow-up + Reviews</span>
+            <span class="tech-role">Google Reviews prompt</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="features-grid">
+    <div class="feature"><span class="feature-icon">🤖</span> RAG semantic memory — AI learns from every chat</div>
+    <div class="feature"><span class="feature-icon">📄</span> Auto PDF brochure delivery on request</div>
+    <div class="feature"><span class="feature-icon">🎯</span> Customer intelligence extraction on every message</div>
+    <div class="feature"><span class="feature-icon">🧾</span> Bookings written to Supabase in real-time</div>
+    <div class="feature"><span class="feature-icon">⏰</span> Automated visit reminder sequence</div>
+    <div class="feature"><span class="feature-icon">⭐</span> Google Review follow-up automation</div>
+    <div class="feature"><span class="feature-icon">📋</span> Luxury Arabic sales persona</div>
+    <div class="feature"><span class="feature-icon">🗄️</span> Full client control via Google Sheets</div>
+  </div>
+
+</div>
+</div>
+
+</div><!-- end #work -->
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<div id="about" class="section" style="padding-top: 80px;">
+  <p class="section-label">About</p>
+  <h2 class="section-title">Why hire me</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm an AI automation engineer specializing in <strong>WhatsApp AI systems</strong> for Arabic-speaking markets — Morocco, Saudi Arabia, and the Gulf. I don't just connect APIs; I build complete customer-facing systems that handle real conversations, create real bookings, and deliver real business outcomes.</p>
+      <p>Both systems above are <strong>in production on real infrastructure</strong> — self-hosted n8n on Hetzner VPS with Cloudflare Tunnel, Evolution API for WhatsApp, Supabase as the database layer. Not demos. Not templates. Working systems generating real interactions.</p>
+      <p>I build for <strong>non-technical clients</strong>. The Google Sheets integration means any business owner can update their vehicle catalog or pricing without ever touching the automation. That's the point — the system serves them, not the other way around.</p>
+    </div>
+    <div class="skills-list">
+      <div class="skill-row"><div class="skill-dot" style="background:var(--accent-teal)"></div>n8n workflow architecture (self-hosted)</div>
+      <div class="skill-row"><div class="skill-dot" style="background:var(--accent-teal)"></div>WhatsApp automation via Evolution API</div>
+      <div class="skill-row"><div class="skill-dot" style="background:var(--accent-teal)"></div>OpenAI GPT-4o / GPT-4o-mini prompting</div>
+      <div class="skill-row"><div class="skill-dot" style="background:var(--accent-amber)"></div>RAG systems (pgvector + Supabase)</div>
+      <div class="skill-row"><div class="skill-dot" style="background:var(--accent-amber)"></div>Supabase database design + REST API</div>
+      <div class="skill-row"><div class="skill-dot" style="background:var(--accent-amber)"></div>Google Sheets as client config layer</div>
+      <div class="skill-row"><div class="skill-dot" style="background:var(--accent-purple)"></div>VPS deployment (Hetzner + Docker)</div>
+      <div class="skill-row"><div class="skill-dot" style="background:var(--accent-purple)"></div>Cloudflare Tunnel + domain config</div>
+      <div class="skill-row"><div class="skill-dot" style="background:var(--accent-purple)"></div>Arabic / French / Darija AI prompting</div>
+      <div class="skill-row"><div class="skill-dot" style="background:var(--accent-purple)"></div>Multi-tenant SaaS architecture</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<div id="contact" class="section" style="padding-top: 80px; padding-bottom: 80px;">
+  <div class="contact-box">
+    <p class="section-label" style="margin-bottom: 8px;">Let's work together</p>
+    <h2 class="contact-title">Ready to automate your business?</h2>
+    <p class="contact-sub">I take on freelance projects for businesses that want real AI automation — not chatbot toys. WhatsApp, Arabic markets, and n8n are my specialty.</p>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:rio.epex@gmail.com">✉ rio.epex@gmail.com</a>
+      <a class="contact-link" href="#">💼 Upwork Profile</a>
+      <a class="contact-link" href="#">🐦 LinkedIn</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>RioOps · AI Automation Agency</span>
+  <span>Built with n8n · Supabase · OpenAI</span>
+</footer>
+
+</body>
+</html>
